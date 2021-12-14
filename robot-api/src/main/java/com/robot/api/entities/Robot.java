@@ -8,17 +8,22 @@ public class Robot {
 	private Integer positionX;
 	private Integer positionY;
 	private Integer view;
+	private String movements;
 	private Terrain terrain;
 	
-	public Robot() {		
-		
+	public Robot() {
+		this.positionX = 0;
+		this.positionY = 0;
+		this.view      = 0;		
 	}	
 	
-	public Robot(Integer positionX, Integer positionY, Integer view, Terrain terrain) {	
-		this.positionX = positionX;
-		this.positionY = positionY;
-		this.terrain = terrain;
-		this.view = view;
+	public Robot(Terrain terrain, String movements) {	
+		this.positionX = 0;
+		this.positionY = 0;
+		this.view      = 0;		
+		this.terrain   = terrain;
+		this.movements = movements;		
+		setMovements(movements);
 	}
 	
 	public Integer getPositionX() {
@@ -35,10 +40,18 @@ public class Robot {
 	}
 	public Integer getView() {
 		return view;
-	}	
+	}		
 	
+	public void setTerrain(Terrain terrain) {
+		this.terrain = terrain;
+	}
+
 	public Terrain getTerrain() {
 		return terrain;
+	}	
+
+	public String getMovements() {
+		return movements;
 	}
 
 	public void setView(Integer view) {
@@ -47,6 +60,34 @@ public class Robot {
 			this.view = 360;
 		
 		this.view+=view;		
+	}
+	
+	public String getCoordinate() {
+		
+		return RobotView.valueOf(view).toString();
+		
+	}
+	
+	public void setMovements(String moves) {
+		
+		if(moves == "")
+			throw new StandardError("Nenhuma informação enviada para o robô.");
+		
+		for (char ch : moves.toCharArray()) {			  
+			switch (ch) {
+			case 'L':
+				setView(-90);				
+				break;
+			case 'R':
+				setView(90);				
+				break;
+			case 'M':
+				move();				
+				break;
+			default:
+				throw new StandardError("Comando inválido.");
+			}
+		}
 	}
 	
 	public void move() {
@@ -68,9 +109,9 @@ public class Robot {
 		}
 		
 		checkTerrainPosition();		
-	}
+	}		
 	
-	boolean checkTerrainPosition() {
+	public boolean checkTerrainPosition() {
 		
 		if (positionX < 0 || positionX > terrain.getWidth())
 			throw new StandardError("Posição inválida.");
@@ -83,7 +124,7 @@ public class Robot {
 
 	@Override
 	public String toString() {
-		return "(" + positionX + ", " + positionY + ", " + RobotView.valueOf(view) + ")";					
+		return "(" + positionX + ", " + positionY + ", " + getCoordinate() + ")";					
 	}	
 
 }

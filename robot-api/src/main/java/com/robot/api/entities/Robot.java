@@ -7,8 +7,7 @@ public class Robot {
 	
 	private Integer positionX;
 	private Integer positionY;
-	private Integer view;
-	private String movements;
+	private Integer view;	
 	private Terrain terrain;
 	
 	public Robot() {
@@ -21,51 +20,50 @@ public class Robot {
 		this.positionX = 0;
 		this.positionY = 0;
 		this.view      = 0;		
-		this.terrain   = terrain;
-		this.movements = movements;		
+		this.terrain   = terrain;		
 		setMovements(movements);
 	}
 	
 	public Integer getPositionX() {
 		return positionX;
 	}
+	
 	public void setPositionX(Integer positionX) {
 		this.positionX = positionX;
 	}
+	
 	public Integer getPositionY() {
 		return positionY;
 	}
+	
 	public void setPositionY(Integer positionY) {
 		this.positionY = positionY;
 	}
+	
 	public Integer getView() {
 		return view;
-	}		
+	}
+	
+	public void setView(Integer view) {
+		this.view+=view;		
+		
+		if (this.view == 360)
+			this.view = 0;
+		
+		if(this.view < 0)
+			this.view += 360;		
+	}
+	
+	public Terrain getTerrain() {
+		return terrain;
+	}
 	
 	public void setTerrain(Terrain terrain) {
 		this.terrain = terrain;
-	}
-
-	public Terrain getTerrain() {
-		return terrain;
-	}	
-
-	public String getMovements() {
-		return movements;
-	}
-
-	public void setView(Integer view) {
-		
-		if (view <= 0 && this.view == 0)
-			this.view = 360;
-		
-		this.view+=view;		
-	}
+	}		
 	
-	public String getCoordinate() {
-		
-		return RobotView.valueOf(view).toString();
-		
+	public String getCoordinate() {		
+		return RobotView.valueOf(view).toString();		
 	}
 	
 	public void setMovements(String moves) {
